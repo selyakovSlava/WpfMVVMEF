@@ -1,0 +1,57 @@
+﻿<Window x:Class="WPFExampleEF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFExampleEF"
+        xmlns:localVM="clr-namespace:WPFExampleEF.ViewModels"
+        mc:Ignorable="d"
+        Title="СУ ОФЗ" 
+        Style="{StaticResource WindowStyle}"
+        WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <localVM:BondViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+        <DataGrid x:Name="gridData"
+                  Grid.Row="0" 
+                  Style="{StaticResource DataGridStyle}"
+                  ItemsSource="{Binding Bonds}" 
+                  SelectedItem="{Binding SelectedBond}"
+                  >
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="dataColumnId" Header="#" Binding="{Binding Path=Id}" />
+                <DataGridTextColumn x:Name="dataColumnSecId" Header="SecId" Binding="{Binding Path=SecId}" />
+                <DataGridTextColumn x:Name="dataColumnName" Header="Наименование" Binding="{Binding Path=Name}" />
+                <DataGridTextColumn x:Name="dataColumnCount" Header="Количество" Binding="{Binding Path=Count}" />
+                <DataGridTextColumn x:Name="dataColumnPrice" Header="Текущая цена" Binding="{Binding Path=Price, StringFormat={}{0:N2}}" />
+                <DataGridTextColumn x:Name="dataColumnAccumulatedCouponIncome" Header="НКД" Binding="{Binding Path=AccumulatedCouponIncome, StringFormat={}{0:N2}}" />
+                <DataGridTextColumn x:Name="dataColumnCouponValue" Header="Купон" Binding="{Binding Path=CouponValue, StringFormat={}{0:N2}}" />
+                <DataGridTextColumn x:Name="dataColumnDateNextCoupon" Header="Следующий купон" Binding="{Binding Path=DateNextCoupon, StringFormat={}{0:dd.MM.yyyy}}" />
+                <DataGridTextColumn x:Name="dataColumnDateClose" Header="Закрытие" Binding="{Binding Path=DateClose, StringFormat={}{0:dd.MM.yyyy}}" />
+
+                <DataGridTextColumn x:Name="dataColumnGrossSum" Header="Сумма" Binding="{Binding Path=GrossSum, StringFormat={}{0:N2}}" />
+                <DataGridTextColumn x:Name="dataColumnTaxIncomeSum" Header="НДФЛ" Binding="{Binding Path=TaxIncomeSum, StringFormat={}{0:N2}}" />
+                <DataGridTextColumn x:Name="dataColumnNetSum" Header="К выплате" Binding="{Binding Path=NetSum, StringFormat={}{0:N2}}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+        <StackPanel Grid.Row="2" Style="{StaticResource NavigatorStackPanelStyle}" >
+            <Button Style="{StaticResource NavigatorButtonStyle}" Command="{Binding SaveCommand}">Save</Button>
+            <Button Style="{StaticResource NavigatorButtonStyle}" Command="{Binding UpdateCommand}">Обновить</Button>
+            <Button Style="{StaticResource NavigatorButtonStyle}" Command="{Binding AddCommand}">Добавить</Button>
+            <Button Style="{StaticResource NavigatorButtonStyle}" Command="{Binding EditCommand}">Изменить</Button>
+            <Button Style="{StaticResource NavigatorButtonStyle}" Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedBond}">Удалить</Button>
+        </StackPanel>
+        
+    </Grid>
+</Window>
